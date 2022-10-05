@@ -36,7 +36,7 @@ func listenForData(ch chan<- string, cType string, host string, port string) {
 	l, err := net.Listen(cType, host + ":" + port)
 	if err != nil {
 		fmt.Println("Error listening: ", err.Error())
-		os.Exit(1)
+		os.Exit(1)   
 	}
 	defer l.Close()
 
@@ -97,7 +97,6 @@ func sendAllData(scs ServerConfigs, myServerId int, allDone chan<- int) {
 }
 
 func sendData(cType string, host string, port string, message string, done chan<- int) {
-	fmt.Println("Starting " + cType + " client to connHost: " + host + ", connPort: " + port)
 	conn, err := net.Dial(cType, host + ":" + port)
 	tm := 100 // wait at most 10s
 	for err != nil {
@@ -123,7 +122,6 @@ func main() {
 
 	// Read server configs from file
 	scs := readServerConfigs(os.Args[2])
-	fmt.Println("Got the following server configs", scs)
 
 	// listen on a socket
 	ch := make(chan string) // make sure receive data from all other servers
