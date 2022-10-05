@@ -1,0 +1,10 @@
+servers:
+  - serverId: 0
+    host: "localhost"
+    port: "8080"
+  - serverId: 1
+    host: "localhost"
+    port: "8081"
+  - serverId: 2
+    host: "localhost"
+    port: "8082"
