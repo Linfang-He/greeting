@@ -36,6 +36,7 @@ func handleConnection(conn net.Conn, ch chan<- string) {
 	}
 	greeting := string(buf[0:bytes])
 	ch <- greeting
+	conn.Close()
 }
 
 func consolidateServerData(ch <-chan string, numOfClients int) {
