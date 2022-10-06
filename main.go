@@ -38,24 +38,30 @@ func handleConnection(conn net.Conn, ch chan<- string) {
 	ch <- greeting
 }
 
-func consolidateServerData(ch <-chan string) {
+func consolidateServerData(ch <-chan string, numOfClients int) {
+	numOfClientsCompleted := 0
 	for {
+		if numOfClientsCompleted == numOfClients {
+			break
+		}
 		message := <-ch // receive data from channel
 		fmt.Println(message)
+		numOfClientsCompleted++
 	}
 }
 
 func main() {
-	// Read server configs from file
+	// Read server configs
 	host := os.Args[1]
 	port := os.Args[2]
 
 	// listen on a socket
-	ch := make(chan string) // make sure receive data from all other servers
+	ch := make(chan string)
 	defer close(ch)
 	go listenForData(ch, "tcp", host, port)
 
 	// consolidate data
 	// will block until all data has been received
-	consolidateServerData(ch)
+	numOfClients := 7
+	consolidateServerData(ch, numOfClients)
 }
